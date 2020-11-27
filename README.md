@@ -9,7 +9,7 @@ aws lambda plugin for moromi
 ## Usage
 
 ### params:
-* module: _the local filename of the lambda module to test_
+* module: _the local filename of the lambda module to test (relative to the folder where moromi is being called from)_
 * handler (default `handler`): _the handler name exported by the lambda module_
 * event (default `{}`): _the event that the handler should be called with_
 * context (default `null`): _the context that the handler should be called with_
