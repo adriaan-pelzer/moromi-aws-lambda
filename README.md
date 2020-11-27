@@ -10,41 +10,41 @@ aws lambda plugin for moromi
 
 ### params:
 * module: _the local filename of the lambda module to test_
-* handler (default 'handler'): _the handler name exported by the lambda module_
-* event (default {}): _the event that the handler should be called with_
-* context (optional): _the context that the handler should be called with_
+* handler (default `handler`): _the handler name exported by the lambda module_
+* event (default `{}`): _the event that the handler should be called with_
+* context (default `null`): _the context that the handler should be called with_
 
 ## Example
 Given the following lambda function:
 ```js
-  module.exports.handler = ({ Records: [{ cf: { request: {
-    uri, method = 'GET', querystring = '', headers
-  } } }] }, context, callback) => callback(null, {
-    uri,
-    method,
-    headers
-  });
+module.exports.handler = ({ Records: [{ cf: { request: {
+  uri, method = 'GET', querystring = '', headers
+} } }] }, context, callback) => callback(null, {
+  uri,
+  method,
+  headers
+});
 ```
 
 the following moromi test will pass:
 ```js
-  {
-    name: 'example aws lambda test',
-    type: require('moromi-aws-lambda')
-    params: {
-      module: '../index.js',
-      event: {
-        Records: [{ cf: { request: {
-          uri: '/test',
-          headers: {
-            host: [{ key: 'Host', value: 'example.is' }]
-          }
-        } } }]
-      }
-    },
-    expected: {
-      uri: '/test', method: 'GET',
-     'headers.host.0.value': 'example.is'
+{
+  name: 'example aws lambda test',
+  type: require('moromi-aws-lambda')
+  params: {
+    module: '../index.js',
+    event: {
+      Records: [{ cf: { request: {
+        uri: '/test',
+        headers: {
+          host: [{ key: 'Host', value: 'example.is' }]
+        }
+      } } }]
     }
+  },
+  expected: {
+    uri: '/test', method: 'GET',
+   'headers.host.0.value': 'example.is'
   }
+}
 ```
